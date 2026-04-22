@@ -2,7 +2,7 @@ name: Update Briefing
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 하루 1번 실행 (UTC 기준)
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: 실행
         run: python bot.py
 
-      - name: 변경사항 저장
+      - name: 커밋 & 푸시
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
