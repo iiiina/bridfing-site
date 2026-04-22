@@ -1,12 +1,30 @@
-name: Test Run
+name: Update Briefing
 
 on:
+  schedule:
+    - cron: '0 * * * *'  # 1시간마다 실행 (테스트용)
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: hello
-        run: echo "작동 확인"
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: 파이썬 설치
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: 브리핑 생성
+        run: python bot.py
+
+      - name: 변경사항 커밋
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "update briefing" || echo "no changes"
+          git push
